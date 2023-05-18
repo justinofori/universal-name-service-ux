@@ -1,8 +1,7 @@
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
 
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
+import Search from '@/components/search'
 
 import {useButton} from 'react-aria'
 
@@ -26,8 +25,7 @@ export default function Home() {
       </div>
 
       <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-2 lg:text-left">
-        <Input/>
-        <Button>Search</Button>
+        <Search></Search>
       </div>
     </main>
   )

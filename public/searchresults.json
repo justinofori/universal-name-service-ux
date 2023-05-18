@@ -1,0 +1,19 @@
+{
+  "searchResults": [
+    {
+      "username": "john.0x",
+      "price": 500,
+      "isRegistered": true
+    },
+    {
+      "username": "jane.0x",
+      "price": 200,
+      "isRegistered": false
+    },
+    {
+      "username": "alex.0x",
+      "price": 300,
+      "isRegistered": true
+    }
+  ]
+}
