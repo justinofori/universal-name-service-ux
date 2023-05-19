@@ -2,6 +2,9 @@ import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { VariantProps, cva } from "class-variance-authority"
 
+import {useButton} from 'react-aria'
+import { AriaButtonProps } from "react-aria"
+
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
@@ -32,19 +35,25 @@ const buttonVariants = cva(
   }
 )
 
-export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
-  asChild?: boolean
+export interface ButtonProps extends AriaButtonProps,
+  VariantProps<typeof buttonVariants> {
+  asChild?: boolean;
+  className?: string;
+  onClick?: () => void;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : "button"
+
+    const buttonRef = React.useRef<HTMLInputElement>(null);
+    let { buttonProps } = useButton(props, buttonRef);
+
     return (
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
+        {...buttonProps}
         {...props}
       />
     )

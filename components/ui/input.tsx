@@ -29,6 +29,19 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
     const { focusProps } = useFocusRing();
 
+    const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+      const { value } = event.target;
+      if (onChange) {
+        onChange(value);
+      }
+    };
+
+    const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (event) => {
+      if (event.key === "Enter" && onSubmit) {
+        onSubmit(event.currentTarget.value);
+      }
+    };
+
     return (
       <input
         type={type}
@@ -40,6 +53,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         ref={inputRef}
         {...inputProps}
         {...props}
+        {...focusProps}
+        onChange={handleChange}
+        onKeyDown={handleKeyDown}
       />
     )
   }

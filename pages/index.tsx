@@ -8,6 +8,11 @@ import {useButton} from 'react-aria'
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+
+  const handleSearchSubmit = (value: string) => {
+    console.log("Search value:", value);
+  };
+
   return (
     <main
       className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
@@ -25,7 +30,7 @@ export default function Home() {
       </div>
 
       <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-2 lg:text-left">
-        <Search></Search>
+        <Search onSubmit={handleSearchSubmit}/>
       </div>
     </main>
   )
