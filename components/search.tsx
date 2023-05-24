@@ -1,42 +1,60 @@
-import * as React from "react";
+import React, { useState } from 'react';
+import Image from 'next/image';
+import SearchBar from './searchbar';
+import SearchResults from './searchresults';
+import { SearchResult } from './searchresults';
 
-import { Button, ButtonProps } from "./ui/button"
-import { Input, InputProps } from "./ui/input"
+const Search = () => {
+    const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+    const [selectedUsername, setSelectedUsername] = useState('');
 
+  const handleSearchSubmit = (value: string) => {
+    console.log('Search value:', value);
+      
+    // Perform search logic and set the search results data
+    const results: SearchResult[] = [
+      {
+        username: 'john.0x',
+        price: 500,
+        isRegistered: true,
+      },
+      {
+        username: 'jane.0x',
+        price: 200,
+        isRegistered: false,
+      },
+      {
+        username: 'alex.0x',
+        price: 300,
+        isRegistered: true,
+      },
+    ];
+      
+    // Check if the submitted username exists in the results
+    const foundUser = results.find((result) => result.username === value);
+    if (foundUser) {
+      setSelectedUsername(foundUser.username);
+    } else {
+      setSelectedUsername('');
+    }
 
-interface SearchProps {
-    onSubmit: (value: string) => void;
-    inputProps?: InputProps & { value?: string };
-    buttonProps?: ButtonProps;
-}
+    // Set the search results data in state
+    setSearchResults(results);
+  };
 
-const Search: React.FC<SearchProps> = ({ onSubmit, inputProps, buttonProps }) => {
+  return (
+    <main>
+      <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-2 lg:text-left">
+        <SearchBar onSubmit={handleSearchSubmit} />
+      </div>
 
-    const [value, setValue] = React.useState("");
+        {searchResults &&
+              <SearchResults
+              results={searchResults}
+              selectedUsername={selectedUsername}
+        />}
+    </main>
+  );
+};
 
-    const handleSubmit = () => {
-        if (onSubmit) {
-            onSubmit(value);
-        }
-    };
-
-    const handleChange = (newValue: string) => {
-        setValue(newValue);
-    };
-
-    return (
-        <>
-            <Input
-                onSubmit={handleSubmit}
-                value={value}
-                onChange={handleChange}
-                {...inputProps}
-            />
-            <Button variant="default" size="default" onClick={handleSubmit} {...buttonProps}>
-                Search
-            </Button>
-        </>
-    )
-}
-
-export default Search
+export default Search;
