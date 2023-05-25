@@ -1,5 +1,9 @@
 import React from 'react';
 
+import { Item } from 'react-stately';
+import { List } from './ui/List';
+import { Button } from './ui/button';
+
 export interface SearchResult {
   username: string;
   price: number;
@@ -17,22 +21,22 @@ const SearchResults: React.FC<SearchResultsProps> = ({ results, selectedUsername
 
   return (
     <div>
-      {selectedUser && (
-        <div className="selected-username">
-          <h2>Selected Username: {selectedUser.username}</h2>
-          <p>Price: {selectedUser.price}</p>
-          <p>Registered: {selectedUser.isRegistered ? 'Yes' : 'No'}</p>
-        </div>
-      )}
-      <div className="other-usernames">
-        {results.map((result) => (
-          <div key={result.username} className="username">
-            <h2>{result.username}</h2>
-            <p>Price: {result.price}</p>
-            <p>Registered: {result.isRegistered ? 'Yes' : 'No'}</p>
-          </div>
-        ))}
-      </div>
+        {selectedUser && (
+            <div className="selected-username">
+                <h2>Selected Username: {selectedUser.username}</h2>
+                <p>Price: {selectedUser.price}</p>
+                <p>Registered: {selectedUser.isRegistered ? 'Yes' : 'No'}</p>
+            </div>
+        )}
+            
+        <List items={results} aria-label="Search Results">
+              {(item: SearchResult) => (
+                <Item textValue = { item.username } key={ item.username }>
+                {item.username}
+                <Button>Select</Button>
+                </Item>
+              )}
+        </List>
     </div>
   );
 };

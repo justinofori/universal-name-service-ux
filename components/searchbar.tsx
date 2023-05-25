@@ -31,6 +31,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSubmit, inputProps, buttonProps
                 value={value}
                 onChange={handleChange}
                 {...inputProps}
+                aria-label="Search input bar"
             />
             <Button variant="default" size="default" onClick={handleSubmit} {...buttonProps}>
                 Search

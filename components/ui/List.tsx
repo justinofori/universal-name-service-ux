@@ -1,12 +1,11 @@
 import React, { useRef } from 'react';
 import { useFocusRing, useGridList, useGridListItem, mergeProps } from 'react-aria';
-import { useListState } from 'react-stately';
+import { useListState, ListProps as AriaListProps } from 'react-stately';
 import { SearchResult } from '../searchresults';
 
-interface ListProps {
-  items: SearchResult[];
-  renderItem: (item: SearchResult) => React.ReactNode;
-  selectionMode?: 'none' | 'single' | 'multiple';
+interface ListProps extends AriaListProps<SearchResult>{
+    items: SearchResult[];
+    selectionMode?: 'none' | 'single' | 'multiple';
 }
 
 export function List(props: ListProps) {
@@ -17,7 +16,7 @@ export function List(props: ListProps) {
     return (
     <ul {...gridProps} ref={ref} className="list">
         {props.items.map((item, index) => (
-        <ListItem key={index} item={item} state={state} renderItem={props.renderItem} />
+        <ListItem key={index} item={item} state={state} />
         ))}
     </ul>
     );
@@ -26,7 +25,6 @@ export function List(props: ListProps) {
 interface ListItemProps {
     item: SearchResult;
     state: any;
-    renderItem: (item: SearchResult) => React.ReactNode;
 }
 
 const convertToNode = (item: SearchResult): any => ({
@@ -34,7 +32,7 @@ const convertToNode = (item: SearchResult): any => ({
   value: item,
 });
 
-const ListItem: React.FC<ListItemProps> = ({ item, state, renderItem }) => {
+const ListItem: React.FC<ListItemProps> = ({ item, state }) => {
     let ref = useRef<HTMLLIElement>(null);
     let node = convertToNode(item);
   let { rowProps, gridCellProps, isPressed } = useGridListItem({ node }, state, ref);
@@ -50,8 +48,10 @@ const ListItem: React.FC<ListItemProps> = ({ item, state, renderItem }) => {
       className={`${isPressed ? 'pressed' : ''} ${
         isFocusVisible ? 'focus-visible' : ''
       }`}
-    >
-      {renderItem(item)}
+      >
+        <div {...gridCellProps}>
+        {node.rendered}
+         </div>
     </li>
   );
 }
