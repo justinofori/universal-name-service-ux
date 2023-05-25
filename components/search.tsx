@@ -6,7 +6,7 @@ import { SearchResult } from './searchresults';
 
 const Search = () => {
     const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
-    const [selectedUsername, setSelectedUsername] = useState('');
+    const [selectedUsername, setSelectedUsername] = useState<SearchResult>();
 
   const handleSearchSubmit = (value: string) => {
     console.log('Search value:', value);
@@ -33,9 +33,7 @@ const Search = () => {
     // Check if the submitted username exists in the results
     const foundUser = results.find((result) => result.username === value);
     if (foundUser) {
-      setSelectedUsername(foundUser.username);
-    } else {
-      setSelectedUsername('');
+      setSelectedUsername(foundUser);
     }
 
     // Set the search results data in state
@@ -52,6 +50,7 @@ const Search = () => {
               <SearchResults
               results={searchResults}
               selectedUsername={selectedUsername}
+              setSelectedUsername={setSelectedUsername}
         />}
     </main>
   );
