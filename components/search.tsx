@@ -27,15 +27,26 @@ const Search = () => {
       {
         username: 'alex.0x',
         price: 300,
-        isRegistered: true,
+        isRegistered: false,
       },
+      {
+        username: 'laser.0x',
+        price: 300,
+        isRegistered: false,
+      },
+      {
+        username: 'nikos.0x',
+        price: 300,
+        isRegistered: false,
+      }
     ];
       
     // Check if the submitted username exists in the results
     const foundUser = results.find((result) => result.username === value);
+    
     if (foundUser) {
       setSelectedUsername(foundUser);
-      setUsernameIsAvailable(true);
+      setUsernameIsAvailable(!foundUser.isRegistered);
     } else {
       setSelectedUsername(undefined)
       setUsernameIsAvailable(false);

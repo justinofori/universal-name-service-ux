@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Button } from './ui/button';
-import {GridList, Item, MenuTrigger, Menu, Popover} from 'react-aria-components';
+import {GridList, Item, MenuTrigger, Menu, Popover, Button as AriaButton} from 'react-aria-components';
 
 export interface SearchResult {
   username: string;
@@ -41,7 +41,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ results, selectedUsername
       }
       {
         usernameIsAvailable === false && (
-          <h1 className='mb-5 font-bold'>Unfortunately, this username is not available</h1>
+          <h1 className='mb-5 font-bold'>This username is currently reserved</h1>
         )
       }
       
@@ -49,10 +49,10 @@ const SearchResults: React.FC<SearchResultsProps> = ({ results, selectedUsername
           <GridList aria-label='Selected Result GridList'>
             <Item textValue={selectedUsername.username} key={selectedUsername.username}>
               <div className="flex space-x-10">
-                <div>{selectedUsername.username}</div>
+                <div className='font-bold'>{selectedUsername.username}</div>
                 <div>{selectedUsername.isRegistered ? 'Already registered' : 'Unregistered'}</div>
                 <div>{selectedUsername.price + ' USDT'}</div>
-                <Button onClick={() => handleSelect(selectedUsername)} className='ml-64'>Select</Button>
+                <Button onClick={() => handleSelect(selectedUsername)} className='ml-64'>Register</Button>
               </div>
             </Item>
           </GridList>
@@ -68,14 +68,12 @@ const SearchResults: React.FC<SearchResultsProps> = ({ results, selectedUsername
           <Button>Free Only</Button>
           <Button>Randomize Suggestions</Button>
           <MenuTrigger>
-            <Button aria-label="Filter Menu">☰ Filter</Button>
+            <AriaButton aria-label="Filter Menu" className='rounded bg-slate-700 text-blue-50'>☰ Filter</AriaButton>
             <Popover>
               <Menu onAction={alert}>
-                <Item id="open">Open</Item>
-                <Item id="rename">Rename…</Item>
-                <Item id="duplicate">Duplicate</Item>
-                <Item id="share">Share…</Item>
-                <Item id="delete">Delete…</Item>
+                <Item id="open">Filter 1</Item>
+                <Item id="rename">Filter 2</Item>
+                <Item id="duplicate">Filter 3</Item>
               </Menu>
             </Popover>
           </MenuTrigger>
@@ -88,9 +86,12 @@ const SearchResults: React.FC<SearchResultsProps> = ({ results, selectedUsername
           <Item textValue={item.username} key={item.username}>
             <div className="flex space-x-10">
               <div>{item.username}</div>
-              <div>{item.isRegistered ? 'Already registered' : 'Unregistered'}</div>
+              <div>{item.isRegistered ? 'Registered' : 'Unregistered'}</div>
               <div>{item.price + ' USDT'}</div>
-              <Button onClick={() => handleSelect(item)} className='ml-64'>Select</Button>
+              <div>{item.isRegistered ?
+                <Button isDisabled onClick={() => handleSelect(item)} className='ml-64'>Select</Button> :
+                <Button onClick={() => handleSelect(item)} className='ml-64'>Select</Button>}
+              </div>
             </div>
           </Item>
         ))}
