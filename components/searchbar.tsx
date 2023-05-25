@@ -25,7 +25,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSubmit, inputProps, buttonProps
     };
 
     return (
-        <>
+        <div className='flex mb-5 font-bold'>
             <Input
                 onSubmit={handleSubmit}
                 value={value}
@@ -36,7 +36,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSubmit, inputProps, buttonProps
             <Button variant="default" size="default" onClick={handleSubmit} {...buttonProps}>
                 Search
             </Button>
-        </>
+        </div>
     )
 }
 

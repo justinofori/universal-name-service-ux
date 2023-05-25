@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Image from 'next/image';
 import SearchBar from './searchbar';
 import SearchResults from './searchresults';
 import { SearchResult } from './searchresults';
@@ -8,7 +7,8 @@ const Search = () => {
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [selectedUsername, setSelectedUsername] = useState<SearchResult>();
   const [showSearchResultsFiltersAndSorts, setShowSearchResultsFiltersAndSorts] = useState<boolean>(false);
-
+  const [usernameIsAvailable, setUsernameIsAvailable] = useState<boolean | null>(null);
+  
   const handleSearchSubmit = (value: string) => {
     console.log('Search value:', value);
       
@@ -35,7 +35,11 @@ const Search = () => {
     const foundUser = results.find((result) => result.username === value);
     if (foundUser) {
       setSelectedUsername(foundUser);
-    } else {setSelectedUsername(undefined)}
+      setUsernameIsAvailable(true);
+    } else {
+      setSelectedUsername(undefined)
+      setUsernameIsAvailable(false);
+    }
 
     // Set the search results data in state
     setSearchResults(results);
@@ -55,7 +59,9 @@ const Search = () => {
               results={searchResults}
               selectedUsername={selectedUsername}
               setSelectedUsername={setSelectedUsername}
-              showSearchResultsFiltersAndSorts ={showSearchResultsFiltersAndSorts}
+              showSearchResultsFiltersAndSorts={showSearchResultsFiltersAndSorts}
+              usernameIsAvailable={usernameIsAvailable}
+              setUsernameIsAvailable={setUsernameIsAvailable}
         />}
     </main>
   );

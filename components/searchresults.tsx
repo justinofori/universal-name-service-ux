@@ -14,12 +14,15 @@ interface SearchResultsProps {
     selectedUsername: SearchResult | undefined;
     setSelectedUsername: React.Dispatch<React.SetStateAction<SearchResult | undefined>>;
     showSearchResultsFiltersAndSorts: boolean;
+    usernameIsAvailable: boolean | null;
+    setUsernameIsAvailable: React.Dispatch<React.SetStateAction<boolean | null>>
 }
 
-const SearchResults: React.FC<SearchResultsProps> = ({ results, selectedUsername, setSelectedUsername, showSearchResultsFiltersAndSorts }) => {
+const SearchResults: React.FC<SearchResultsProps> = ({ results, selectedUsername, setSelectedUsername, showSearchResultsFiltersAndSorts, usernameIsAvailable, setUsernameIsAvailable }) => {
 
   const handleSelect = (item: SearchResult) => {
     setSelectedUsername(item)
+    setUsernameIsAvailable(null)
   }
 
   const filteredResults = [...results];
@@ -30,10 +33,19 @@ const SearchResults: React.FC<SearchResultsProps> = ({ results, selectedUsername
   
   return (
     <div>
+
+      {
+        usernameIsAvailable === true && (
+          <h1 className='mb-5 font-bold'>Great News, this username is available</h1>
+        )
+      }
+      {
+        usernameIsAvailable === false && (
+          <h1 className='mb-5 font-bold'>Unfortunately, this username is not available</h1>
+        )
+      }
       
       {selectedUsername && (
-        <>
-          <h1 className='mb-5 font-bold'>Great News, this username is available</h1>
           <GridList aria-label='Selected Result GridList'>
             <Item textValue={selectedUsername.username} key={selectedUsername.username}>
               <div className="flex space-x-10">
@@ -44,7 +56,6 @@ const SearchResults: React.FC<SearchResultsProps> = ({ results, selectedUsername
               </div>
             </Item>
           </GridList>
-        </>
       )}
 
       {showSearchResultsFiltersAndSorts && (
