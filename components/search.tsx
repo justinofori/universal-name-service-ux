@@ -5,8 +5,9 @@ import SearchResults from './searchresults';
 import { SearchResult } from './searchresults';
 
 const Search = () => {
-    const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
-    const [selectedUsername, setSelectedUsername] = useState<SearchResult>();
+  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+  const [selectedUsername, setSelectedUsername] = useState<SearchResult>();
+  const [showSearchResultsFiltersAndSorts, setShowSearchResultsFiltersAndSorts] = useState<boolean>(false);
 
   const handleSearchSubmit = (value: string) => {
     console.log('Search value:', value);
@@ -34,10 +35,13 @@ const Search = () => {
     const foundUser = results.find((result) => result.username === value);
     if (foundUser) {
       setSelectedUsername(foundUser);
-    }
+    } else {setSelectedUsername(undefined)}
 
     // Set the search results data in state
     setSearchResults(results);
+
+    // Set showSearchButtons to true when a search is performed
+    setShowSearchResultsFiltersAndSorts(true);
   };
 
   return (
@@ -51,6 +55,7 @@ const Search = () => {
               results={searchResults}
               selectedUsername={selectedUsername}
               setSelectedUsername={setSelectedUsername}
+              showSearchResultsFiltersAndSorts ={showSearchResultsFiltersAndSorts}
         />}
     </main>
   );
